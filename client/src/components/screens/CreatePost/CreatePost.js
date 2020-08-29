@@ -16,7 +16,7 @@ function CreatePost() {
     const [body,setBody] = useState('');
     const [style, setStyle] = useState(null);
     const [images,setImages] = useState(null);
-    const [url,setUrl] = useState('');
+    const [url,setUrl] = useState(null);
     const [value,setValue] = useState('');
     const formData = new FormData();
 
@@ -40,9 +40,8 @@ function CreatePost() {
             setBody('');
             setImages(null);
         }
-       
     },[url])
-    console.log(images);
+    console.log(url)
     const postDetails = () => {
         formData.append("file",images);
         formData.append("upload_preset","social");
@@ -60,8 +59,6 @@ function CreatePost() {
             console.error({err});
         });
        
-
-    
     }
     const onChangeUpload = (e) => {
         setImages(e.target.files[0]);

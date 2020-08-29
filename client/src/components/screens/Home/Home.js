@@ -18,8 +18,6 @@ function Home() {
 
 
 
-    
-
     useEffect(()=>{
         axios.get('/allpost',{
             headers: {
@@ -28,6 +26,7 @@ function Home() {
             }
         })
         .then(res=>{
+            console.log(res.data);
             console.log(res.data.posts);
             setData(res.data.posts);
         })
@@ -35,8 +34,9 @@ function Home() {
             console.error(err);
         })
 
-    },[data])
-    
+    },[])
+
+    console.log(data.length);
     const handleLikePost = (id) => {
         data.forEach(item=>{
             if(item._id===id){
