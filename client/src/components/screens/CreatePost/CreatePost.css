@@ -1,0 +1,133 @@
+.post {
+    width: 100%;
+    background-color: white;
+    border: 1px solid #e6ecf5;
+}
+
+.post-nav {
+    /* text-align: left; */
+    background-color: #fafbfd;
+    display: flex;
+}
+.post-nav-item {
+    padding: 20px 25px;
+    height: 100%;
+}
+.react-tabs__tab-list {
+    margin: 0 !important;
+    border-bottom: 1px solid transparent !important; 
+    
+
+}
+.react-tabs__tab {
+    bottom: 0 !important;
+    border-right: 1px solid #e6ecf5 !important;
+    border-bottom: 1px solid  #e6ecf5 !important;
+
+}
+.react-tabs__tab--selected > .post-nav-item > .post-icon {
+    color:#ff5e3a;
+
+}
+.react-tabs__tab--selected {
+    border-bottom:none !important; 
+    border-color:#e6ecf5 !important ;
+}
+
+.post-icon{
+    margin-right: 6px;
+    font-size: 18px;
+}
+
+.post-nav-item > span {
+    font-size: 14px;
+    font-weight: 400;
+}
+.post-form {
+    position: relative;
+    border-bottom: 1px solid #e6ecf5;
+}
+.post-form > textarea {    
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 160px;
+    border: none;
+    outline: none;
+    resize: none;
+    padding: 0;
+    font-size: 16px;
+    padding-left: 70px;
+    padding-top:24px;
+}
+
+.post-form >label {
+    position: absolute;
+    pointer-events: none;
+    top: 10px;
+    left: 70px;
+    font-size: 14px;
+    line-height: 1.42857;
+    transition: 0.3s ease all;
+    color: #888da8;
+}
+
+.form-avt {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    z-index: 1;
+}
+
+.form-avt > img {
+    border-radius: 100%;
+    width: 36px;
+    height: 36px;
+}
+
+.post-option {
+    padding: 20px;
+    display: flex;
+}
+
+.post-btn {
+    padding: .8rem 2.1rem;
+    font-size: 0.688rem;
+    border-radius: 0.3rem;
+    background-color: #ff5e3a;
+    border-color: #ff5e3a;
+    color: white;
+    line-height: 1.5;
+    font-weight: 700;
+}
+
+
+input[type='file'] {
+    opacity:0;    
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+
+}
+
+.post-option {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-option > span {
+    position: absolute;
+    left:35px;
+    top:35px;
+    font-size: 22px;
+}
+
+.form-preview {
+    max-height: 500px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    padding: 20px;
+    padding-top: 0;
+}

@@ -1,0 +1,197 @@
+.container-signup{
+    min-height: 100vh;
+    /* display: grid;
+    grid-template-columns: auto auto; */
+    display: flex;
+
+}
+.signup-left {
+    width: 50%;
+}
+
+
+.signup-form > p{
+    margin-bottom: 1rem;
+}
+
+
+
+
+
+
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    color: black;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+
+.icon-wrapper {
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #FFFFFF;
+    border-radius: 12px;
+    margin-right: 1rem;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 12px;
+}
+  
+.input-container > span {
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    background: #fff;
+    height: calc(2.5rem - 4px);
+    width: calc(2.5rem - 2px);
+    line-height: calc(2.5rem - 2px);
+    border-radius: 50%;
+    text-align: center;
+    /* left: 2px; */
+    z-index: 1;
+    color: #000;
+}
+  
+.input-container > input {
+    /* padding-left: 40px; */
+    font-size: 16px;
+    border-radius: 50px;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: calc(calc(2.5rem - 2px) + 10px);
+    border: 1px solid transparent;
+    background-color: #f7f7f7;
+    color: #626c72;
+    padding-right: 30px;
+    /* background-color: red; */
+    outline: none;
+    height: 20px;
+}
+
+.input-container >input:focus {
+    border: 1px solid #8224e3;
+}
+
+
+.container-form > p {
+    margin-bottom: 20px;
+}
+
+
+.form-btn {
+    background-color: #8224e3;
+    background-image: linear-gradient(90deg, #8224e3 0, #a968ec 50%, #8224e3 100%);
+    box-shadow: 0 1px 2px 0 rgba(130, 36, 227, 0.5);
+    color: #fff;
+    border-radius: 30px;
+    text-align: center;
+    cursor: pointer;
+    padding: 12px 102px;
+    outline: none;
+    font-size: 16px;    
+    background-size: 200%;
+}
+
+h3,p, ul {
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+
+ul {
+    padding-inline-start: 0px;
+}
+
+.container-form > a {
+    margin-bottom: 12px;
+    font-size: 14px;
+    align-self: flex-end;
+    padding-right: 68px;
+    text-decoration: none;
+    color: black;
+}
+
+.form-login {
+    margin-top: 12px;
+    color: black;
+}
+
+.form-login > a {
+    text-decoration: none; 
+}
+
+.signup-right {
+    width: 50%;
+    min-height: 100%;
+}
+
+.signup-swiper {
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat; 
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+.signup-content{
+    text-align: left;
+    width: 400px;
+    margin-left: 4rem;
+    color: black;
+}
+
+.signup-content > h2 {
+    margin-top: 16px;
+    font-size: 38px;
+    font-weight: 700;
+}
+
+.signup-content > h3 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.signup-content > p {
+    margin-bottom: 32px;
+}
+
+.signup-content > a {
+    border-radius: 100px;
+    border: 1px solid black;
+    padding: 12px 50px;
+    line-height: 26px;
+}
+
+.signup-content > a:hover {
+    background-color: #fff;
+    border-color: #fff;
+    color: #29292d;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.signup-right > div {
+    height: 100%;
+}
+.react-slideshow-container{
+    height: 100%;
+
+}
+
+.react-slideshow-wrapper.slide {
+    height: 100%;
+}
+
+.images-wrap {
+    height: 100%;
+}
