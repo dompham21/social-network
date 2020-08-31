@@ -17,10 +17,9 @@ function CreatePost() {
     const [style, setStyle] = useState(null);
     const [images,setImages] = useState(null);
     const [url,setUrl] = useState(null);
-    const [value,setValue] = useState('');
     const formData = new FormData();
+    let info = JSON.parse(localStorage.getItem("userInfo")); //get data my info from localstorage
 
-    
 
     useEffect(()=>{
         
@@ -32,7 +31,7 @@ function CreatePost() {
                 }
             })
             .then(res=>{
-                console.log(res);
+                
             })
             .catch(err=>{
                 console.error(err);
@@ -41,7 +40,6 @@ function CreatePost() {
             setImages(null);
         }
     },[url])
-    console.log(url)
     const postDetails = () => {
         formData.append("file",images);
         formData.append("upload_preset","social");
@@ -102,7 +100,7 @@ function CreatePost() {
                 </div>
                 <div className="post-form">
                     <div className="form-avt">
-                        <img alt="avt" src="https://www.takadada.com/wp-content/uploads/2019/07/avatar-anime-name-cho-facebook-1.jpg"></img>
+                        <img alt="avt" src={info.avatar}></img>
                     </div>
                     <label style={style}>Share what you are thing here...</label>
                     <textarea onFocus={handleFocus} onBlur={handleBlur} value={body} onChange={(e)=>setBody(e.target.value)} spellCheck="false"></textarea>

@@ -33,6 +33,7 @@ function UserProfile() {
     const [visible,setVisible] = useState(false);
     const [url,setUrl] = useState('');
 
+
     const showDrawer = () => {
         setVisible(true);
       };
@@ -338,7 +339,7 @@ function UserProfile() {
                 </div>
                 <div className="header-author">
                     <a  className="author-thumb">
-                        <img alt="avt" src={userInfo.avatar?userInfo.avatar.slice(-1).pop():"https://www.takadada.com/wp-content/uploads/2019/07/avatar-anime-name-cho-facebook-1.jpg"}></img>
+                        <img alt="avt" src={userInfo.avatar} ></img>
                         {(userid===info._id)&& <span onClick={showDrawer}><FontAwesomeIcon icon={faCamera}></FontAwesomeIcon></span>}
                     </a>
                     <div className="author-content">
@@ -432,7 +433,7 @@ function UserProfile() {
                         return (
                             <div className="home-card" key={index}>
                                 <div className="card-author">
-                                    <img alt="avt" src="https://www.takadada.com/wp-content/uploads/2019/07/avatar-anime-name-cho-facebook-1.jpg"></img>
+                                    <img alt="avt" src={item.postBy.avatar}></img>
                                     <div className="card-author_info">
                                         <Link to={`/profile/${item.postBy._id}`}>{item.postBy.name}</Link>                                
                                         <time >{ moment(item.date).fromNow()}</time>
@@ -474,7 +475,7 @@ function UserProfile() {
                                         return (
                                             <div className="comment-list" key={index}>
                                                 <div className="commnet-author">
-                                                    <img alt="avt" src="https://www.takadada.com/wp-content/uploads/2019/07/avatar-anime-name-cho-facebook-1.jpg"></img>
+                                                    <img alt="avt" src={record.postBy.avatar}></img>
                                                 </div>
                                                 <div className="comment-list_text">
                                                     <a >{item.postBy.name}</a>
@@ -485,7 +486,7 @@ function UserProfile() {
                                     })}
                                     <div className="comment-post">
                                         <div className="commnet-author">
-                                            <img alt="avt" src="https://www.takadada.com/wp-content/uploads/2019/07/avatar-anime-name-cho-facebook-1.jpg"></img>
+                                            <img alt="avt" src={userInfo.avatar}></img>
                                         </div>
                                         <form className="comment-form"
                                             onKeyPress={(e)=>{

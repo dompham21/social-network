@@ -17,7 +17,6 @@ function Home() {
     let info = JSON.parse(localStorage.getItem("userInfo"));
 
 
-
     useEffect(()=>{
         axios.get('/allpost',{
             headers: {
@@ -26,7 +25,6 @@ function Home() {
             }
         })
         .then(res=>{
-            console.log(res.data);
             console.log(res.data.posts);
             setData(res.data.posts);
         })
@@ -34,9 +32,7 @@ function Home() {
             console.error(err);
         })
 
-    },[])
-
-    console.log(data.length);
+    },[data.length])
     const handleLikePost = (id) => {
         data.forEach(item=>{
             if(item._id===id){
@@ -169,7 +165,7 @@ function Home() {
                     return (
                         <div className="home-card" key={index}>
                             <div className="card-author">
-                                <img alt="avt" src="https://www.takadada.com/wp-content/uploads/2019/07/avatar-anime-name-cho-facebook-1.jpg"></img>
+                                <img alt="avt" src={item.postBy.avatar}></img>
                                 <div className="card-author_info">
                                     <a href={`/profile/${item.postBy._id}`}>{item.postBy.name}</a>
                                     <time >{ moment(item.date).fromNow()}</time>
@@ -199,7 +195,7 @@ function Home() {
                                 </a>
                                 <a  className="card-action comments" >
                                     <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
-                                    <span>0 Comments</span>
+                                    <span>{item.comment.length} Comments</span>
                                 </a>
                                 <a  className="card-action shares">
                                     <FontAwesomeIcon icon={faShareSquare}></FontAwesomeIcon>
@@ -211,7 +207,7 @@ function Home() {
                                     return (
                                         <div className="comment-list" key={index}>
                                             <div className="commnet-author">
-                                                <img alt="avt" src="https://www.takadada.com/wp-content/uploads/2019/07/avatar-anime-name-cho-facebook-1.jpg"></img>
+                                                <img alt="avt" src={record.postBy.avatar}></img>
                                             </div>
                                             <div className="comment-list_text">
                                                 <a>{record.postBy.name}</a>
@@ -222,7 +218,7 @@ function Home() {
                                 })}
                                 <div className="comment-post">
                                     <div className="commnet-author">
-                                        <img alt="avt" src="https://www.takadada.com/wp-content/uploads/2019/07/avatar-anime-name-cho-facebook-1.jpg"></img>
+                                        <img alt="avt" src={info.avatar}></img>
                                     </div>
                                     <form className="comment-form"
                                         onKeyPress={(e)=>{

@@ -10,9 +10,9 @@ const { Router } = require('express');
 router.get('/user/:id',requireLogin,(req,res)=>{
     User.findById({_id:req.params.id})
     .select("-password")
-    .then(user=>{
-        
+    .then(user=>{     
         Post.find({postBy:req.params.id})
+        .populate("comment.postBy","_id name avatar")
         .populate("postBy","_id name avatar")
         .exec((err,posts)=>{
             if(err){
@@ -80,7 +80,7 @@ router.put('/avatar',requireLogin,(req,res)=>{
         return res.status(422).json({err:"Please add all the fields"});
     }
     User.findByIdAndUpdate(req.user._id,{
-        $push:{avatar:req.body.imageUrl}
+        $set:{avatar:req.body.imageUrl}
     },{
         new:true
     })

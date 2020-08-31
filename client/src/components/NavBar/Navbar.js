@@ -24,19 +24,19 @@ function Navbar() {
 
         if(localStorage.getItem('jwt')){
             return [
-                <li key="1" style={{marginTop:"3px"}}><Link to={`/profile/${info._id}`} >Profile</Link></li>,
+                <li key="1" style={{marginTop:"3px"}}><a href={`/profile/${info._id}`} >Profile</a></li>,
                 <li key="2" className="nav-dropdown" >
-                    <a  href="/#" className="nav-dropdown_btn"><FontAwesomeIcon icon={faSortDown} /></a>
+                    <a   className="nav-dropdown_btn"><FontAwesomeIcon icon={faSortDown} /></a>
                     <div className="nav-dropdown_content">
-                        <Link className="nav-author" to={`/profile/${info._id}`}>
-                            <img alt="avt" src="https://www.takadada.com/wp-content/uploads/2019/07/avatar-anime-name-cho-facebook-1.jpg"></img>
+                        <a className="nav-author" href={`/profile/${info._id}`}>
+                            <img alt="avt" src={info.avatar}></img>
                             <div className="nav-author_info">
                             <div className="nav-author_name">{info.name}</div>
                                 <span>See your profile</span>
                             </div>
-                        </Link>
-                        <a href="/#"><FontAwesomeIcon icon={faCog}/><span>Setting & Privacy</span></a>
-                        <a href="/#" onClick={()=>handleLogOut()}>
+                        </a>
+                        <a ><FontAwesomeIcon icon={faCog}/><span>Setting & Privacy</span></a>
+                        <a  onClick={()=>handleLogOut()}>
                             <FontAwesomeIcon icon={faSignOutAlt}/>
                             <span>Log Out</span>
                         </a>

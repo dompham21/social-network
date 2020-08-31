@@ -26,8 +26,8 @@ router.post('/createpost',requireLogin,(req,res) => {
 
 router.get('/allpost',requireLogin,(req,res) => {
     Post.find()
-    .populate("comment.postBy","_id name")
-    .populate("postBy","_id name")
+    .populate("comment.postBy","_id name avatar")
+    .populate("postBy","_id name avatar")
     .sort({date: 'descending'})
     .then(posts=>{
         res.json({posts:posts});
@@ -39,8 +39,8 @@ router.get('/allpost',requireLogin,(req,res) => {
 
 router.get('/mypost',requireLogin,(req,res) => {
     Post.find({ postBy: req.user._id })
-    .populate("comment.postBy","_id name")
-    .populate("postBy","_id name")
+    .populate("comment.postBy","_id name avatar")
+    .populate("postBy","_id name avatar")
     .sort({date: 'descending'})
     .then(mypost=>{
         res.json({mypost:mypost})
@@ -55,8 +55,9 @@ router.put('/like',requireLogin,(req,res) => {
         $push:{like: req.user._id}
     },{
         new: true
-    })
-    .populate("postBy","_id name")
+    })    
+    .populate("comment.postBy","_id name avatar")
+    .populate("postBy","_id name avatar")
     .exec((err,result)=>{
         if(err){
             return res.status(422).json({error:err})
@@ -74,7 +75,8 @@ router.put('/unlike',requireLogin,(req,res)=>{
     },{
         new:true
     })
-    .populate("postBy","_id name")
+    .populate("comment.postBy","_id name avatar")
+    .populate("postBy","_id name avatar")
     .exec((err,result)=>{
         if(err){
             return res.status(422).json({error:err})
@@ -94,8 +96,8 @@ router.put('/comment',requireLogin,(req,res) => {
     },{
         new: true
     })
-    .populate("comment.postBy","_id name")
-    .populate("postBy","_id name")
+    .populate("comment.postBy","_id name avatar")
+    .populate("postBy","_id name avatar")
     .exec((err,result)=>{
         if(err){
             return res.status(422).json({error:err})
@@ -108,7 +110,7 @@ router.put('/comment',requireLogin,(req,res) => {
 
 router.delete('/deletepost/:postId',requireLogin,(req,res)=>{
     Post.findOne({_id:req.params.postId})
-    .populate("postBy","_id name")
+    // .populate("postBy","_id name avatar")
     .exec((err,post)=>{
         if(err || !post){
             return res.status(422).json({error:err})
