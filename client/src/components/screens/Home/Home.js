@@ -218,7 +218,7 @@ function Home() {
                                 })}
                                 <div className="comment-post">
                                     <div className="commnet-author">
-                                        <img alt="avt" src={info.avatar}></img>
+                                        <img alt="avt" src=''></img>
                                     </div>
                                     <form className="comment-form"
                                         onKeyPress={(e)=>{

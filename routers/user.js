@@ -27,6 +27,11 @@ router.get('/user/:id',requireLogin,(req,res)=>{
     })
 })
 
+// router.get('/myuser',requireLogin,(req,res)=>{
+//     User.findById({_id:req.params.id})
+//     .select("")
+// })
+
 router.put('/follow',requireLogin,(req,res)=>{
     User.findByIdAndUpdate(req.body.followId,{
         $push:{followers:req.body.followId}
