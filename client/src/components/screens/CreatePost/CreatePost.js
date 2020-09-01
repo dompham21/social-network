@@ -100,7 +100,7 @@ function CreatePost() {
                 </div>
                 <div className="post-form">
                     <div className="form-avt">
-                        <img alt="avt" src={info.avatar}></img>
+                        {/* <img alt="avt" src={info.avatar}></img> */}
                     </div>
                     <label style={style}>Share what you are thing here...</label>
                     <textarea onFocus={handleFocus} onBlur={handleBlur} value={body} onChange={(e)=>setBody(e.target.value)} spellCheck="false"></textarea>

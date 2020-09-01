@@ -7,15 +7,14 @@ import Signup from './components/screens/Signup/Signup';
 import Profile from './components/screens/Profile/Profile';
 import NavBar from './components/NavBar/Navbar';
 import UserProfile from './components/screens/UserProfile/UserProfile';
-const user = JSON.parse(localStorage.getItem("userInfo"))
-
+const jwt = localStorage.getItem('jwt')
 
 
 
 const Routing = ()=>{
   const history = useHistory()
   useEffect(()=>{
-    if(user){
+    if(jwt){
     }else{
            history.push('/login')
     }
