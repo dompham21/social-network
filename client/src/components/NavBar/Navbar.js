@@ -3,13 +3,14 @@ import './Navbar.css';
 import { Link, useHistory } from "react-router-dom";
 import { faSignOutAlt,faSortDown,faCog } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../actions/user_action';
 
 
 
 function Navbar() {
     const dispatch = useDispatch();
+    const infoProfile = useSelector(state => state.user.info)
     const history = useHistory();
 
     const handleLogOut = () => {

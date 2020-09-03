@@ -27,3 +27,16 @@ export const showFollow = () => {
         type: "SHOW_FOLLOW"
     }
 }
+
+export const userInfoAction = (data) => {
+    return {
+        type: "GET_USER_INFO",
+        payload: data
+    }
+}
+
+export const handleLike = () => {
+    return {
+        type : "STYLE_LIKE"
+    }
+}

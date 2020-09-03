@@ -6,6 +6,7 @@ import "./CreatePost.css";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 
 
@@ -19,10 +20,11 @@ function CreatePost() {
     const [url,setUrl] = useState(null);
     const formData = new FormData();
     let info = JSON.parse(localStorage.getItem("userInfo")); //get data my info from localstorage
+    const infoProfile = useSelector(state => state.user.info)
+
 
 
     useEffect(()=>{
-        
         if(url){
             axios.post("/createpost",{body:body,pic:url},{
                 headers: {
@@ -40,6 +42,7 @@ function CreatePost() {
             setImages(null);
         }
     },[url])
+    
     const postDetails = () => {
         formData.append("file",images);
         formData.append("upload_preset","social");
@@ -100,7 +103,7 @@ function CreatePost() {
                 </div>
                 <div className="post-form">
                     <div className="form-avt">
-                        {/* <img alt="avt" src={info.avatar}></img> */}
+                        <img alt="avt" src={infoProfile.avatar}></img>
                     </div>
                     <label style={style}>Share what you are thing here...</label>
                     <textarea onFocus={handleFocus} onBlur={handleBlur} value={body} onChange={(e)=>setBody(e.target.value)} spellCheck="false"></textarea>

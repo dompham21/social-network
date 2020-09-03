@@ -3,19 +3,36 @@ import CreatePost from '../CreatePost/CreatePost';
 import "./Home.css";
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShareSquare,faHeart,faComment } from '@fortawesome/free-regular-svg-icons';
-import { faEllipsisH,faTrashAlt} from '@fortawesome/free-solid-svg-icons';
+import { faShareSquare,faComment } from '@fortawesome/free-regular-svg-icons';
+import { faEllipsisH,faTrashAlt,faHeart} from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { colorLikeAction } from '../../../actions/post_action'
+import { userInfoAction, handleLike } from '../../../actions/user_action';
 
   
 function Home() {
     const [data,setData] = useState([]);
     const [rows,setRows] = useState(1);
     const [value,setValue] = useState('');
-    let info = JSON.parse(localStorage.getItem("userInfo"));
-
+    const dispatch = useDispatch();
+    const infoProfile = useSelector(state => state.user.info);
+    const liked = useSelector(state => state.user.like)
+    const [likeStyle,setLikeStyle] = useState(null);
+    useEffect(()=>{
+        axios.get('/myinfouser',{
+            headers: {
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+localStorage.getItem("jwt")
+            }
+        })
+        .then(res=>{
+            dispatch(userInfoAction(res.data))
+        })
+        .catch(err=>{
+            console.error(err);
+        })
+    },[])
+    console.log(infoProfile)
 
     useEffect(()=>{
         axios.get('/allpost',{
@@ -32,13 +49,14 @@ function Home() {
             console.error(err);
         })
 
-    },[data.length])
+    },[])
     const handleLikePost = (id) => {
         data.forEach(item=>{
             if(item._id===id){
-                let infoIdUser = info._id;
-                let match = item.like.indexOf(infoIdUser)
-                if(match===-1){
+                let infoIdUser = infoProfile._id;
+                let match = item.like.indexOf(infoIdUser)   
+                if(match===-1){     //user is findding not current user
+                    dispatch(handleLike()) 
                     axios.put('/like',{postId:id},{
                         headers: {
                             "Content-Type":"application/json",
@@ -62,6 +80,7 @@ function Home() {
                     })  
                 }
                 else {
+                    dispatch(handleLike()) 
                     axios.put('/unlike',{postId:id},{
                         headers: {
                             "Content-Type":"application/json",
@@ -89,10 +108,7 @@ function Home() {
 
                 
             }
-        })
-       
-            
-        
+        })      
     }
 
     const handleSubmit = (postId,text) => {
@@ -171,7 +187,7 @@ function Home() {
                                     <time >{ moment(item.date).fromNow()}</time>
                                 </div>
                                 {
-                                    item.postBy._id === info._id && 
+                                    item.postBy._id === infoProfile._id && 
                                         <div className="post-btn_dropdown">
                                             <a ><FontAwesomeIcon icon={faEllipsisH} /></a>
                                             <div className="post-dropdown_content">
@@ -189,9 +205,9 @@ function Home() {
                                 <img alt="" src={item.photo}></img>
                             </div>
                             <div className="card-option">
-                                <a  className="card-action likes" onClick={()=>handleLikePost(item._id)}>
-                                    <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
-                                    <span>{item.like.length} Likes</span>
+                                <a  className="card-action likes" onClick={()=>handleLikePost(item._id)} >
+                                <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
+                                <span>{item.like.length} Likes</span>
                                 </a>
                                 <a  className="card-action comments" >
                                     <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
@@ -206,11 +222,11 @@ function Home() {
                                 {item.comment.map((record,index)=>{
                                     return (
                                         <div className="comment-list" key={index}>
-                                            <div className="commnet-author">
+                                            <div className="commnet-author" >
                                                 <img alt="avt" src={record.postBy.avatar}></img>
                                             </div>
                                             <div className="comment-list_text">
-                                                <a>{record.postBy.name}</a>
+                                                <a href={`/profile/${record.postBy._id}`}>{record.postBy.name}</a>
                                                 <p>{record.text}</p>
                                             </div>
                                         </div>
@@ -218,7 +234,7 @@ function Home() {
                                 })}
                                 <div className="comment-post">
                                     <div className="commnet-author">
-                                        <img alt="avt" src=''></img>
+                                        <img alt="avt" src={infoProfile.avatar}></img>
                                     </div>
                                     <form className="comment-form"
                                         onKeyPress={(e)=>{

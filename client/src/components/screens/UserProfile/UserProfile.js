@@ -34,6 +34,7 @@ function UserProfile() {
     const [url,setUrl] = useState('');
 
 
+
     const showDrawer = () => {
         setVisible(true);
       };
@@ -478,7 +479,7 @@ function UserProfile() {
                                                     <img alt="avt" src={record.postBy.avatar}></img>
                                                 </div>
                                                 <div className="comment-list_text">
-                                                    <a >{item.postBy.name}</a>
+                                                    <a href={`/profile/${record.postBy._id}`}>{item.postBy.name}</a>
                                                     <p>{record.text}</p>
                                                 </div>
                                             </div>
