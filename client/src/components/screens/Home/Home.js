@@ -206,8 +206,8 @@ function Home() {
                             </div>
                             <div className="card-option">
                                 <a  className="card-action likes" onClick={()=>handleLikePost(item._id)} >
-                                <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
-                                <span>{item.like.length} Likes</span>
+                                    <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
+                                    <span>{item.like.length} Likes</span>
                                 </a>
                                 <a  className="card-action comments" >
                                     <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>

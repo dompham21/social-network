@@ -27,10 +27,15 @@ router.get('/user/:id',requireLogin,(req,res)=>{
     })
 })
 
-// router.get('/myuser',requireLogin,(req,res)=>{
-//     User.findById({_id:req.params.id})
-//     .select("")
-// })
+router.get('/myinfouser',requireLogin,(req,res)=>{
+    User.findById({_id:req.user._id})
+    .then(user=>{
+        res.json(user);
+    })
+    .catch(err=>{
+        return res.status(422).json({error:err})
+    })
+})
 
 router.put('/follow',requireLogin,(req,res)=>{
     User.findByIdAndUpdate(req.body.followId,{
