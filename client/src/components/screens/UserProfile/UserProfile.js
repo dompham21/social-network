@@ -1,11 +1,11 @@
 import React,{useEffect,useState} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { faShareSquare,faHeart,faComment } from '@fortawesome/free-regular-svg-icons';
-import { faEllipsisH,faTrashAlt,faCamera} from '@fortawesome/free-solid-svg-icons';
+import { faShareSquare,faComment } from '@fortawesome/free-regular-svg-icons';
+import { faEllipsisH,faTrashAlt,faCamera,faHeart} from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
-import { useParams, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { showFollow } from '../../../actions/user_action';
 import { Upload } from 'antd';
 import 'antd/dist/antd.css';
@@ -21,10 +21,9 @@ function getBase64(img, callback) {
 }
 
 function UserProfile() {
-    const show = useSelector(state => state.user.show)
     const dispatch = useDispatch()
     const [userProfile,setProfile] = useState([])
-    const [userInfo,setUserInfo] = useState({following:0,followers:0});
+    const [userInfo,setUserInfo] = useState({following:[],followers:[]});
     const [rows,setRows] = useState(1);
     const [value,setValue] = useState('');
     const {userid} = useParams();
@@ -34,6 +33,7 @@ function UserProfile() {
     const [url,setUrl] = useState('');
 
 
+    console.log(userInfo);
 
     const showDrawer = () => {
         setVisible(true);
@@ -91,73 +91,7 @@ function UserProfile() {
         })
         dispatch(showFollow());
     }
-    console.log(userInfo)
-    console.log(userProfile)
-
-    const handleLikePost = (id) => {
-        userProfile.forEach(item=>{
-            if(item._id===id){
-                let infoIdUser = info._id;
-                let match = item.like.indexOf(infoIdUser)
-                if(match===-1){
-                    axios.put('/like',{postId:id},{
-                        headers: {
-                            "Content-Type":"application/json",
-                            "Authorization":"Bearer "+localStorage.getItem("jwt")
-                        }
-                    })
-                    .then(res=>{
-                        
-                        const newData = userProfile.map(item=>{
-                            if(item._id===res.data._id){
-                                return res.data;
-                            }
-                            else{
-                                return item;
-                            }
-                            
-                        })
-                        setProfile(newData);        
-                    })
-                    .catch(err=>{
-                        console.error(err);
-                    })  
-                }
-                else {
-                    axios.put('/unlike',{postId:id},{
-                        headers: {
-                            "Content-Type":"application/json",
-                            "Authorization":"Bearer "+localStorage.getItem("jwt")
-                        }
-                    })
-                    .then(res=>{
-                        
-                        const newData = userProfile.map(item=>{
-                            if(item._id===res.data._id){
-                                return res.data;
-                            }
-                            else{
-                                return item;
-                            }
-                            
-                        })
-                        setProfile(newData);
-        
-                    })
-                    .catch(err=>{
-                        console.error(err);
-                    })  
-                    
-                }
-
-                
-            }
-        })
-       
-            
-        
-    }
-
+   
     const handleSubmit = (postId,text) => {
 
         axios.put('/comment',{postId:postId,text:text},{
@@ -213,20 +147,6 @@ function UserProfile() {
         })
     }
 
-    const conditionFollow = () => {
-        
-        if(userid === info._id){
-            return;
-        }
-        else if(show){
-            return( <a  onClick={()=>followUser()}>Follow us</a>)
-        }
-        else{
-            return   (<a onClick={()=>unfollowUser()}>Unfollow</a>)
-        }
-    }
-
-
     const  handleChange = info => {
         if (info.file.status === 'done') {
           // Get this url from response in real world.
@@ -270,6 +190,55 @@ function UserProfile() {
         });
     
     }
+    const likePost = (id) => {
+        axios.put('/like',{postId:id},{
+            headers: {
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+localStorage.getItem("jwt")
+            }
+        })
+        .then(res=>{                        
+            const newData = userProfile.map(item=>{
+                if(item._id===res.data._id){
+                    return res.data;
+                }
+                else{
+                    return item;
+                }
+                
+            })
+            setProfile(newData); 
+
+        })
+        .catch(err=>{
+            console.error(err);
+        })  
+    
+    }
+
+    const unLikePost = (id) => {
+        axios.put('/unlike',{postId:id},{
+            headers: {
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+localStorage.getItem("jwt")
+            }
+        })
+        .then(res=>{
+            const newData = userProfile.map(item=>{
+                if(item._id===res.data._id){
+                    return res.data;
+                }
+                else{
+                    return item;
+                }
+                
+            })
+            setProfile(newData);
+        })
+        .catch(err=>{
+            console.error(err);
+        })  
+    }
 
     useEffect(()=>{
         
@@ -296,7 +265,7 @@ function UserProfile() {
         <div>
           <div className="ant-upload-text">Upload</div>
         </div>
-      );
+    );
 
     return (
         <div className="profile">
@@ -355,9 +324,20 @@ function UserProfile() {
                         <li><a >Friends</a></li>
                     </ul>
                     <ul className="section-right">
-                        <li> 
-                            {conditionFollow()}
-                        </li>
+                        {
+                            userid!==info._id ? (
+                                <li> 
+                                    {
+                                        userInfo.followers.includes(info._id) ? (
+                                            <a onClick={()=>unfollowUser()}>unfollow</a> 
+                                            ) :
+                                            <a onClick={()=>followUser()}>follow</a>
+                                    }  
+                                </li>
+                                ) : 
+                                null
+                        }
+                        
                         <li>{userid!==info._id?<a >Message</a>:<></>}</li>
                         <li className="dropdown">
                             <button className="dropdown-btn"><FontAwesomeIcon icon={faEllipsisH}></FontAwesomeIcon></button>
@@ -436,7 +416,7 @@ function UserProfile() {
                                 <div className="card-author">
                                     <img alt="avt" src={item.postBy.avatar}></img>
                                     <div className="card-author_info">
-                                        <Link to={`/profile/${item.postBy._id}`}>{item.postBy.name}</Link>                                
+                                        <a href={`/profile/${item.postBy._id}`}>{item.postBy.name}</a>                                
                                         <time >{ moment(item.date).fromNow()}</time>
                                     </div>
                                     {
@@ -458,10 +438,19 @@ function UserProfile() {
                                     <img alt="" avt="photo" src={item.photo}></img>
                                 </div>
                                 <div className="card-option">
-                                    <a className="card-action likes" onClick={()=>handleLikePost(item._id)}>
-                                        <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
-                                        <span>{item.like.length} Likes</span>
-                                    </a>
+                                {
+                                    item.like.includes(info._id) ? (
+                                            <a  className="card-action likes" style={{color:"red"}} onClick={()=>unLikePost(item._id)} >
+                                                <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
+                                                <span>{item.like.length} Likes</span>
+                                            </a>
+                                        ) : (
+                                            <a  className="card-action likes" style={{color:"#1890ff"}} onClick={()=>likePost(item._id)} >
+                                                <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
+                                                <span>{item.like.length} Likes</span>
+                                            </a>
+                                        )
+                                }
                                     <a  className="card-action comments" >
                                         <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
                                         <span>0 Comments</span>
@@ -479,7 +468,7 @@ function UserProfile() {
                                                     <img alt="avt" src={record.postBy.avatar}></img>
                                                 </div>
                                                 <div className="comment-list_text">
-                                                    <a href={`/profile/${record.postBy._id}`}>{item.postBy.name}</a>
+                                                    <a href={`/profile/${record.postBy._id}`}>{record.postBy.name}</a>
                                                     <p>{record.text}</p>
                                                 </div>
                                             </div>

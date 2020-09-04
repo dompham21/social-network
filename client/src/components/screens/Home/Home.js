@@ -16,8 +16,6 @@ function Home() {
     const [value,setValue] = useState('');
     const dispatch = useDispatch();
     const infoProfile = useSelector(state => state.user.info);
-    const liked = useSelector(state => state.user.like)
-    const [likeStyle,setLikeStyle] = useState(null);
     useEffect(()=>{
         axios.get('/myinfouser',{
             headers: {
@@ -50,66 +48,6 @@ function Home() {
         })
 
     },[])
-    const handleLikePost = (id) => {
-        data.forEach(item=>{
-            if(item._id===id){
-                let infoIdUser = infoProfile._id;
-                let match = item.like.indexOf(infoIdUser)   
-                if(match===-1){     //user is findding not current user
-                    dispatch(handleLike()) 
-                    axios.put('/like',{postId:id},{
-                        headers: {
-                            "Content-Type":"application/json",
-                            "Authorization":"Bearer "+localStorage.getItem("jwt")
-                        }
-                    })
-                    .then(res=>{                        
-                        const newData = data.map(item=>{
-                            if(item._id===res.data._id){
-                                return res.data;
-                            }
-                            else{
-                                return item;
-                            }
-                            
-                        })
-                        setData(newData);
-        
-                    })
-                    .catch(err=>{
-                    })  
-                }
-                else {
-                    dispatch(handleLike()) 
-                    axios.put('/unlike',{postId:id},{
-                        headers: {
-                            "Content-Type":"application/json",
-                            "Authorization":"Bearer "+localStorage.getItem("jwt")
-                        }
-                    })
-                    .then(res=>{
-                        const newData = data.map(item=>{
-                            if(item._id===res.data._id){
-                                return res.data;
-                            }
-                            else{
-                                return item;
-                            }
-                            
-                        })
-                        setData(newData);
-        
-                    })
-                    .catch(err=>{
-                        console.error(err);
-                    })  
-                    
-                }
-
-                
-            }
-        })      
-    }
 
     const handleSubmit = (postId,text) => {
         console.log(text,postId)
@@ -171,7 +109,56 @@ function Home() {
             console.log(data);
         })
     }
+    const likePost = (id) => {
+        axios.put('/like',{postId:id},{
+            headers: {
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+localStorage.getItem("jwt")
+            }
+        })
+        .then(res=>{                        
+            const newData = data.map(item=>{
+                if(item._id===res.data._id){
+                    return res.data;
+                }
+                else{
+                    return item;
+                }
+                
+            })
+            setData(newData);
 
+        })
+        .catch(err=>{
+            console.error(err);
+        })  
+    
+    }
+
+    const unLikePost = (id) => {
+        axios.put('/unlike',{postId:id},{
+            headers: {
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+localStorage.getItem("jwt")
+            }
+        })
+        .then(res=>{
+            const newData = data.map(item=>{
+                if(item._id===res.data._id){
+                    return res.data;
+                }
+                else{
+                    return item;
+                }
+                
+            })
+            setData(newData);
+
+        })
+        .catch(err=>{
+            console.error(err);
+        })  
+    }
 
     return (
         <div className="home-container">
@@ -205,10 +192,19 @@ function Home() {
                                 <img alt="" src={item.photo}></img>
                             </div>
                             <div className="card-option">
-                                <a  className="card-action likes" onClick={()=>handleLikePost(item._id)} >
-                                    <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
-                                    <span>{item.like.length} Likes</span>
-                                </a>
+                                {
+                                    item.like.includes(infoProfile._id) ? (
+                                            <a  className="card-action likes" style={{color:"red"}} onClick={()=>unLikePost(item._id)} >
+                                                <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
+                                                <span>{item.like.length} Likes</span>
+                                            </a>
+                                        ) : (
+                                            <a  className="card-action likes" style={{color:"#1890ff"}} onClick={()=>likePost(item._id)} >
+                                                <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
+                                                <span>{item.like.length} Likes</span>
+                                            </a>
+                                        )
+                                }
                                 <a  className="card-action comments" >
                                     <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
                                     <span>{item.comment.length} Comments</span>

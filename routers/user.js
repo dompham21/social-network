@@ -39,7 +39,7 @@ router.get('/myinfouser',requireLogin,(req,res)=>{
 
 router.put('/follow',requireLogin,(req,res)=>{
     User.findByIdAndUpdate(req.body.followId,{
-        $push:{followers:req.body.followId}
+        $push:{followers:req.user._id}
     },{
         new:true
     },(err,result)=>{
@@ -62,7 +62,7 @@ router.put('/follow',requireLogin,(req,res)=>{
 
 router.put('/unfollow',requireLogin,(req,res)=>{
     User.findByIdAndUpdate(req.body.unfollowId,{
-        $pull:{followers:req.body.unfollowId}
+        $pull:{followers:req.user._id}
     },{
         new:true
     },(err,reuslt)=>{

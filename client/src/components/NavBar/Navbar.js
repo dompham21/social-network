@@ -25,7 +25,7 @@ function Navbar() {
 
         if(localStorage.getItem('jwt')){
             return [
-                <li key="1" style={{marginTop:"3px"}}><a href={`/profile/${info._id}`} >Profile</a></li>,
+                <li key="1" style={{marginTop:"3px"}}><Link to={`/profile/${info._id}`}>Profile</Link></li>,
                 <li key="2" className="nav-dropdown" >
                     <a   className="nav-dropdown_btn"><FontAwesomeIcon icon={faSortDown} /></a>
                     <div className="nav-dropdown_content">
